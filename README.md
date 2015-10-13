@@ -2,9 +2,9 @@
 load hcp (human connectome project) data, get correlation matrices with less memory usage and faster
 
 Python modules required:
-# NumPy 1.9.1
-# SciPy 0.14.1
-# NiBabel 2.1.0dev -> $ git clone --branch enh/cifti2 https://github.com/satra/nibabel.github
+ NumPy 1.9.1
+ SciPy 0.14.1
+ NiBabel 2.1.0dev -> $ git clone --branch enh/cifti2 https://github.com/satra/nibabel.github
 
 load_hcp.py : loading *GIFTI formatted hcp data for a given subject and generating its time-series
 matrix. The function is affective to load data for many subjects e.g. in a loop and especially good
@@ -17,15 +17,15 @@ function exports the 1D array more efficient than numpy.savetxt.
 corr_full.py : given a 1D array of upper triangular correlation matrix, this function returns the
 full correlation matrix
 
-# Step 1, load time-series as a numpy array
+Step 1, load time-series as a numpy array
 
 K = load_hcp.t_series(data_path, subject, template, cnt_files, N_user, subject_path=None, dtype=None)
 
-# Step 2, get upper triangular of correlation matrix of time-series
+Step 2, get upper triangular of correlation matrix of time-series
 
 K = corr_faster.corrcoef_upper(K)
 
-# Step 3, convert 1D array to its full-symmetric 2D correlation matrix. 1D array must be re-sized 
+Step 3, convert 1D array to its full-symmetric 2D correlation matrix. 1D array must be re-sized 
 outside of function.
 
 N_orig = corr_full.N_original(K)
