@@ -1,0 +1,48 @@
+# generic files
+*~
+
+# doc files
+*.odt
+*.pdf
+
+# tex stuff
+*.aux
+*.bbl
+*.blg
+*.dvi
+*.lof
+*.lot
+*.nav
+*.out
+*.snm
+*.toc
+
+# images
+*.eps
+*.jpg
+
+# data files
+*.csv
+*.dat
+*.mat
+*.txt
+*.gz
+*.xz
+
+# job outputs
+*.err
+*.out
+
+# job scripts
+*.cmd
+*.sh
+
+# some scripts & dir's
+*.pyc
+.idea/
+.ipynb_checkpoints/
+compute_embeddings_all.py
+dist_check_fiedler.ipynb
+fiedler4seyma.py
+embed_seyma.py
+\tmp_jobs
