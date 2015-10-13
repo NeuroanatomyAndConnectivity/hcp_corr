@@ -2,9 +2,12 @@
 load hcp (human connectome project) data, get correlation matrices with less memory usage and faster
 
 Python modules required:
- NumPy 1.9.1
- SciPy 0.14.1
- NiBabel 2.1.0dev -> $ git clone --branch enh/cifti2 https://github.com/satra/nibabel.github
+
+NumPy 1.9.1
+
+SciPy 0.14.1
+
+NiBabel 2.1.0dev -> $ git clone --branch enh/cifti2 https://github.com/satra/nibabel.github
 
 load_hcp.py : loading *GIFTI formatted hcp data for a given subject and generating its time-series
 matrix. The function is affective to load data for many subjects e.g. in a loop and especially good
