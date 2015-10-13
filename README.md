@@ -28,8 +28,10 @@ K = corr_faster.corrcoef_upper(K)
 Step 3, convert 1D array to its full-symmetric 2D correlation matrix. 1D array must be re-sized 
 outside of function.
 
-N_orig = corr_full.N_original(K)
+N_orig = corr_full.N_original(K) 
+
 K.resize([N_orig,N_orig])
+
 corr_full.upper_to_down(K)
 
 References:
