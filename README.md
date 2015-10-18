@@ -9,6 +9,8 @@ SciPy 0.14.1
 
 NiBabel 2.1.0dev -> $ git clone --branch enh/cifti2 https://github.com/satra/nibabel.git
 
+numexpr 2.4.4
+
 load_hcp.py : loading *GIFTI formatted hcp data for a given subject and generating its time-series
 matrix. The function is affective to load data for many subjects e.g. in a loop and especially good
 with "N_user" option, which decides the length of time-series for fast-forward runs. 
