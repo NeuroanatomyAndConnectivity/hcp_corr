@@ -3,7 +3,7 @@ load hcp (human connectome project) data, get correlation matrices with less mem
 
 Python modules required:
 
-NumPy 1.9.1
+NumPy 1.9.X -- preferred with high performance blas/lapack libraries (e.g. openblas or intel-mkl)
 
 SciPy 0.14.1
 
