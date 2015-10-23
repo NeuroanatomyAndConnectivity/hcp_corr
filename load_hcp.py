@@ -38,7 +38,7 @@ def t_series(data_path, subject, template, cnt_files, N_user=None, subject_path=
     users are recommended to check this manually!!!)
 
     N_user : int
-        User-defined number of brain nodes, specially good for test runs.    
+        User-defined length of time-series array, specially good for test runs.    
     
     K : output, numpy.ndarray
         Concetanation of time-series matrices obtained from each *.nii file. 
