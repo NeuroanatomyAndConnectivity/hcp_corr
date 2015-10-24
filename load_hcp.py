@@ -1,6 +1,6 @@
 
 def t_series(data_path, subject,
-             template = 'rfMRI_REST?_??_Atlas_hp2000_clean.dtseries.nii',
+             template = None,
              cnt_files=4,
              N_cnt=None,
              N_first=0,
@@ -65,12 +65,22 @@ def t_series(data_path, subject,
     import os
     import numpy as np
     import nibabel as nb
-         
-    if subject_path != None:
-        files = [val for val in sorted(glob(os.path.join(data_path, subject, subject_path, template)))]
-    else:
+
+    template_flat = 'rfMRI_REST?_??_Atlas_hp2000_clean.dtseries.nii'
+    template_orig = 'MNINonLinear/Results/rfMRI_REST?_??/rfMRI_REST?_??_Atlas_hp2000_clean.dtseries.nii'
+
+    # search files in given and default templates
+    files = []
+    if template != None:
         files = [val for val in sorted(glob(os.path.join(data_path, subject, template)))]
-        
+    if len(files) == 0:
+        files = [val for val in sorted(glob(os.path.join(data_path, subject, template_flat)))]
+    if len(files) == 0:
+        files = [val for val in sorted(glob(os.path.join(data_path, subject, template_orig)))]
+
+    if len(files) < cnt_files:
+        raise Exception('Not enough files found!')
+
     files = files[:cnt_files]
     
     for x in xrange(0, cnt_files):
