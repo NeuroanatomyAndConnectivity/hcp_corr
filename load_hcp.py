@@ -5,7 +5,8 @@ def t_series(data_path, subject,
              N_cnt=None,
              N_first=0,
              subject_path=None,
-             dtype=None):
+             dtype=None,
+             normalize=True):
                 
     """Load/write Human Connectome Project (HCP) neuroimaging files via NiBabel 
     module. The HCP data is released in GIFTI format (*nii extention) for 
@@ -91,9 +92,6 @@ def t_series(data_path, subject,
         m_last = m
         n_last = n
 
-        mean_series = single_t_series.mean(axis=0)
-        std_series = single_t_series.std(axis=0)
-
         if x == 0:
             # In first loop we initialize matrix K to be filled up and returned
             # By default we are using the same dtype like input file (float32)
@@ -106,8 +104,13 @@ def t_series(data_path, subject,
                 print "Warning, %s contains different count of brain nodes" % (subject)
             K.resize([n, K.shape[1] + m])
 
-        # concatenation of normalized time-series, column-wise
-        K[:, -m:] = (single_t_series - mean_series) / std_series
+        # concatenation of (normalized) time-series, column-wise
+        if normalize:
+            mean_series = single_t_series.mean(axis=0)
+            std_series = single_t_series.std(axis=0)
+            K[:, -m:] = (single_t_series - mean_series) / std_series
+        else:
+            K[:, -m:] = single_t_series
         del img
         del single_t_series
     # columns are time-series, rows are brain nodes
