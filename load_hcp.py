@@ -50,7 +50,7 @@ def t_series(data_path, subject, template, cnt_files, N_user=None, subject_path=
         $ git clone --branch enh/cifti2 https://github.com/satra/nibabel.git
     
     """
-    
+             
     from glob import glob
     import os
     import numpy as np
@@ -70,16 +70,14 @@ def t_series(data_path, subject, template, cnt_files, N_user=None, subject_path=
 
         # count of brain nodes 
         n = img.header.matrix.mims[1].brainModels[2].indexOffset
-
-        #if N_user != None:
-        #    n = min(N_user, n)
-        #single_t_series = img.data[:, :n].T
-    
-        single_t_series = img.data[:, N_user:n].T
         
+        if N_user != None:
+            n = min(N_user, n)
+        single_t_series = img.data[:, :n].T
+
         # length of time series 
         m = single_t_series.shape[1]
- 
+
         m_last = m
         n_last = n
 
@@ -90,13 +88,13 @@ def t_series(data_path, subject, template, cnt_files, N_user=None, subject_path=
             # In first loop we initialize matrix K to be filled up and returned
             # By default we are using the same dtype like input file (float32)
             init_dtype = single_t_series.dtype if dtype == None else dtype
-            K = np.ndarray(shape=[(n-N_user),m], dtype=init_dtype, order='F')
+            K = np.ndarray(shape=[n,m], dtype=init_dtype, order='F')
         else:
             if  m_last != m:
                 print "Warning, %s contains time series of different length" % (subject)
             if  n_last != n:
                 print "Warning, %s contains different count of brain nodes" % (subject)
-            K.resize([(n-N_user), K.shape[1] + m])
+            K.resize([n, K.shape[1] + m])
 
         # concatenation of normalized time-series, column-wise
         K[:, -m:] = (single_t_series - mean_series) / std_series
