@@ -1,5 +1,11 @@
 
-def t_series(data_path, subject, template, cnt_files, N_user=None, subject_path=None, dtype=None, N_first=0):
+def t_series(data_path, subject,
+             template = 'rfMRI_REST?_??_Atlas_hp2000_clean.dtseries.nii',
+             cnt_files=4,
+             N_cnt=None,
+             N_first=0,
+             subject_path=None,
+             dtype=None):
                 
     """Load/write Human Connectome Project (HCP) neuroimaging files via NiBabel 
     module. The HCP data is released in GIFTI format (*nii extention) for 
@@ -37,9 +43,12 @@ def t_series(data_path, subject, template, cnt_files, N_user=None, subject_path=
     (full address of an *nii data = 'data_path/subject/subject_path/template',
     users are recommended to check this manually!!!)
 
-    N_user : int
-        User-defined number of brain nodes, specially good for test runs.    
-    
+    N_cnt : int
+        User-defined number of brain nodes, specially good for test runs.
+
+    N_first : int
+        User-defined first brain node we want to get data from.
+
     K : output, numpy.ndarray
         Concetanation of time-series matrices obtained from each *.nii file. 
     
@@ -72,8 +81,8 @@ def t_series(data_path, subject, template, cnt_files, N_user=None, subject_path=
         n = img.header.matrix.mims[1].brainModels[2].indexOffset
         n -= N_first
         
-        if N_user != None:
-            n = min(N_user, n)
+        if N_cnt != None:
+            n = min(N_cnt, n)
         single_t_series = img.data[:, N_first:N_first+n].T
 
         # length of time series 
