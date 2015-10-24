@@ -1,5 +1,5 @@
 
-def t_series(data_path, subject, template, cnt_files, N_user=None, subject_path=None, dtype=None):
+def t_series(data_path, subject, template, cnt_files, N_user=None, subject_path=None, dtype=None, N_first=0):
                 
     """Load/write Human Connectome Project (HCP) neuroimaging files via NiBabel 
     module. The HCP data is released in GIFTI format (*nii extention) for 
@@ -70,10 +70,11 @@ def t_series(data_path, subject, template, cnt_files, N_user=None, subject_path=
 
         # count of brain nodes 
         n = img.header.matrix.mims[1].brainModels[2].indexOffset
+        n -= N_first
         
         if N_user != None:
             n = min(N_user, n)
-        single_t_series = img.data[:, :n].T
+        single_t_series = img.data[:, N_first:N_first+n].T
 
         # length of time series 
         m = single_t_series.shape[1]
