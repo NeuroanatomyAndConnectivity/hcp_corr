@@ -1,5 +1,6 @@
 
-def t_series(data_path, subject,
+def t_series(data_path,
+             subject = "",
              template = None,
              cnt_files=4,
              N_cnt=None,
