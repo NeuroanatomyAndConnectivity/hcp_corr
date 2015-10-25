@@ -1,0 +1,10 @@
+# here we expose the public interface of our package
+
+from load_hcp import t_series
+
+from corr_full import N_original
+from corr_full import upper_to_down
+
+from corr_faster import corrcoef_upper
+from corr_faster import mat_to_upper_F
+from corr_faster import write_upper
