@@ -51,6 +51,20 @@ def cool_syrk(fact, X):
     R.resize([size,])
     return R,d
 
+def mat_to_upper_C(A):
+    # check if input array C style contiguous
+    if not A.flags['C_CONTIGUOUS']:
+        raise Exception("C_CONTIGUOUS required")
+    n = A.shape[0]
+    size = (n - 1) * n / 2
+    U = A.reshape([n*n,])
+    k = 0
+    for i in range(0, n-1):
+        len = n - 1 - i
+        U[k:k+len] = A[i,i+1:n]
+        k += len
+    return size
+
 def mat_to_upper_F(A):
     # check if input array Fortran style contiguous
     if not A.flags['F_CONTIGUOUS']:
@@ -68,6 +82,12 @@ def mat_to_upper_F(A):
         U[0,k:k+len] = A[i,i+1:n]
         k += len
     return size
+
+def mat_to_upper(A):
+    if A.flags['C_CONTIGUOUS']:
+        return mat_to_upper_C(A)
+    else:
+        return mat_to_upper_F(A)
 
 # save upper diagonal correlation matrix as 1D array
 def write_upper(file, A, fmt="%g"):
