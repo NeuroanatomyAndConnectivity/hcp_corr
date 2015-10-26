@@ -21,15 +21,11 @@ however, it is tricky since the vector must be 'resized' outside of functions.
 
 """
 
-from scipy.optimize import fsolve
+import numpy as np
 
 def N_original(a):
-    x = a.shape[0]
-    def func(N):
-        return N*(N-1.0) / 2.0 -x
-    n = int(round(fsolve(func, [x])))
-    return n
-    
+    return int(round( 0.5 + np.sqrt(0.25 + 2 * a.shape[0]) ))
+
 def upper_to_down(M):
 
     if not M.flags['C_CONTIGUOUS']:
