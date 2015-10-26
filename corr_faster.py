@@ -1,6 +1,7 @@
 import warnings
 import numpy as np
 from scipy.linalg import get_blas_funcs
+from csv import reader as csv_reader
 
 
 def corrcoef_upper(X):
@@ -102,3 +103,22 @@ def write_upper(file, A, fmt="%g"):
         np.savetxt(f,A[k:k+i].reshape([1,i]),fmt=fmt, delimiter='\n', newline='\n')
         k += i
     f.close()
+
+# A replacement for numpy.loadtxt()
+# This function can only read a 1 dimensional vector [n,1]!
+def load_vector(file):
+    # At the beginning we don't know how large this vector will be.
+    chunk_rows = 32768
+    cur_len = chunk_rows
+    b = np.ndarray(shape=[cur_len], dtype=float)
+    with open(file, 'r') as f:
+        reader = csv_reader(f,'excel-tab')
+        for i, row in enumerate(reader):
+            if i >= cur_len:
+                # Enlarge the vector if we have to.
+                cur_len += chunk_rows
+                b.resize([cur_len])
+            b[i] = row[0]
+    # Probably our vector is now a bit longer than the file ... shrink it!
+    b.resize([i+1])
+    return b

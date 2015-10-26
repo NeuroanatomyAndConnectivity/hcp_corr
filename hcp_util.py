@@ -9,3 +9,4 @@ from corr_faster import corrcoef_upper
 from corr_faster import mat_to_upper_F # deprected
 from corr_faster import mat_to_upper
 from corr_faster import write_upper
+from corr_faster import load_vector
