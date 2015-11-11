@@ -1,11 +1,8 @@
 
-def t_series(data_path,
-             subject = "",
+def t_series(subject = "",
              template = None,
              cnt_files=4,
-             N_cnt=None,
-             N_first=0,
-             subject_path=None,
+             hemisphere='LH',
              dtype=None,
              normalize=True):
                 
@@ -73,11 +70,11 @@ def t_series(data_path,
     # search files in given and default templates
     files = []
     if template != None:
-        files = [val for val in sorted(glob(os.path.join(data_path, subject, template)))]
+        files = [val for val in sorted(glob(os.path.join(subject, template)))]
     if len(files) == 0:
-        files = [val for val in sorted(glob(os.path.join(data_path, subject, template_flat)))]
+        files = [val for val in sorted(glob(os.path.join(subject, template_flat)))]
     if len(files) == 0:
-        files = [val for val in sorted(glob(os.path.join(data_path, subject, template_orig)))]
+        files = [val for val in sorted(glob(os.path.join(subject, template_orig)))]
 
     if len(files) < cnt_files:
         raise Exception('Not enough files found!')
@@ -87,19 +84,20 @@ def t_series(data_path,
     for x in xrange(0, cnt_files):
         img = nb.load(files[x])
         
-        # brainModels[2] will include both left and right hemispheres
-
-        # count of brain nodes 
-        n = img.header.matrix.mims[1].brainModels[2].indexOffset
-        n -= N_first
+        # find out the indices of brain nodes in hemisphere of interest
+        if hemisphere == 'LH':
+            # for the left hemisphere : brainModels[0] 
+            hem = 0
         
-        if N_cnt != None:
-            n = min(N_cnt, n)
-        single_t_series = img.data[:, N_first:N_first+n].T
+        N_first = img.header.matrix.mims[1].brainModels[hem].indexOffset
+        N_cnt = img.header.matrix.mims[1].brainModels[hem].indexCount
+
+        single_t_series = img.data[:, N_first:N_first+N_cnt].T
 
         # length of time series 
         m = single_t_series.shape[1]
-
+        n = single_t_series.shape[0]        
+        
         m_last = m
         n_last = n
 
