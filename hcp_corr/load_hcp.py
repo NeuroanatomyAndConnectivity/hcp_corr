@@ -117,12 +117,11 @@ def t_series(data_path,
 
         # concatenation of (normalized) time-series, column-wise
         if normalize:
-            print "normalize over axis 0"
             
-            mean_series = single_t_series.mean(axis=0)
-            std_series = single_t_series.std(axis=0)
-            K[:, -m:] = (single_t_series - mean_series) / std_series
-    
+            mean_series = single_t_series.mean(axis=1)
+            std_series = single_t_series.std(axis=1)
+            K[:, -m:] = ((single_t_series.T - mean_series) / std_series).T            
+                
         else:
             K[:, -m:] = single_t_series
         del img
