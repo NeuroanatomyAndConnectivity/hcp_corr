@@ -69,7 +69,9 @@ def t_series(subject = "",
         
         N_first = img.header.matrix.mims[1].brainModels[hem].indexOffset
         N_cnt = img.header.matrix.mims[1].brainModels[hem].indexCount
-
+        
+        idx = img.header.matrix.mims[1].brainModels[hem].vertexIndices.indices
+        
         single_t_series = img.data[:, N_first:N_first+N_cnt].T
 
         # length of time series 
@@ -101,5 +103,23 @@ def t_series(subject = "",
             K[:, -m:] = single_t_series
         del img
         del single_t_series
+        
+
+    
     # columns are time-series, rows are brain nodes
     return K
+
+
+    K.shape
+idx
+
+tmp = np.zeros((32492,4800))
+
+j = 0
+for i in range(0, 32492):
+    if np.any(idx == i):
+        tmp[i, :] = K[j,:]        
+        j +=1
+    else:
+        tmp[i, :] = np.nan
+        
