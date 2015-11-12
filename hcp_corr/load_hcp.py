@@ -3,6 +3,8 @@ def t_series(subject = "",
              template = None,
              cnt_files=4,
              hemisphere='LH',
+             N_first=None,
+             N_cnt=None,
              dtype=None,
              normalize=True):
                 
@@ -67,9 +69,10 @@ def t_series(subject = "",
             # for the left hemisphere : brainModels[0] 
             hem = 0
         
-        N_first = img.header.matrix.mims[1].brainModels[hem].indexOffset
-        N_cnt = img.header.matrix.mims[1].brainModels[hem].indexCount
-        
+        if (N_first==None and N_cnt==None): 
+            N_first = img.header.matrix.mims[1].brainModels[hem].indexOffset
+            N_cnt = img.header.matrix.mims[1].brainModels[hem].indexCount
+            
         idx = img.header.matrix.mims[1].brainModels[hem].vertexIndices.indices
         idx_count = img.header.matrix.mims[1].brainModels[hem].surfaceNumberOfVertices
         
