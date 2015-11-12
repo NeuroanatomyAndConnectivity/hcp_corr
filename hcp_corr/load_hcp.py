@@ -105,16 +105,16 @@ def t_series(subject = "",
         del img
         del single_t_series
         
-    # fill out time-series matrix with real indices
-    K_full = np.zeros((idx_count, K.shape[1]))
-    j = 0
-    for i in range(0, idx_count):
-        if np.any(idx == i):
-            K_full[i, :] = K[j, :]
-            j +=1
-        else:
-            K_full[i, :] = np.nan
-    
-    del K
+#    # fill out time-series matrix with real indices
+#    K_full = np.zeros((idx_count, K.shape[1]))
+#    j = 0
+#    for i in range(0, idx_count):
+#        if np.any(idx == i):
+#            K_full[i, :] = K[j, :]
+#            j +=1
+#        else:
+#            K_full[i, :] = np.nan
+#    
+#    del K
     # columns are time-series, rows are brain nodes
-    return K_full
+    return K
