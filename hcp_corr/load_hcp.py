@@ -27,6 +27,7 @@ def t_series(subject = "",
    
     hemisphere : string
         'LH' by default, meaning left hemisphere
+        'RH' for right hemisphere
         
     K : output, numpy.ndarray
         Concetanation of time-series matrices obtained from each *.nii file. 
@@ -68,14 +69,19 @@ def t_series(subject = "",
         if hemisphere == 'LH':
             # for the left hemisphere : brainModels[0] 
             hem = 0
+        elif hemisphere == 'RH':
+            # for the right hemisphere : brainModels[1]            
+            hem = 1
         
         if (N_first==None and N_cnt==None): 
             N_first = img.header.matrix.mims[1].brainModels[hem].indexOffset
             N_cnt = img.header.matrix.mims[1].brainModels[hem].indexCount
+            print "BRAIN STRUCTURE: "            
+            print img.header.matrix.mims[1].brainModels[hem].brainStructure
             
         idx = img.header.matrix.mims[1].brainModels[hem].vertexIndices.indices
         idx_count = img.header.matrix.mims[1].brainModels[hem].surfaceNumberOfVertices
-        
+
         single_t_series = img.data[:, N_first:N_first+N_cnt].T
 
         # length of time series 
@@ -108,16 +114,4 @@ def t_series(subject = "",
         del img
         del single_t_series
         
-#    # fill out time-series matrix with real indices
-#    K_full = np.zeros((idx_count, K.shape[1]))
-#    j = 0
-#    for i in range(0, idx_count):
-#        if np.any(idx == i):
-#            K_full[i, :] = K[j, :]
-#            j +=1
-#        else:
-#            K_full[i, :] = np.nan
-#    
-#    del K
-    # columns are time-series, rows are brain nodes
     return K
