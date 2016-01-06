@@ -115,7 +115,13 @@ def t_series(subject = "",
         # if all brain nodes wanted
         elif hemisphere == 'full':
             
-            single_t_series = img.data.T
+            N_first = 0
+            hem = 1
+            N_tmp = img.header.matrix.mims[1].brainModels[hem].indexOffset
+            N_cnt = img.header.matrix.mims[1].brainModels[hem].indexCount
+            N_cnt += N_tmp
+            
+            single_t_series = img.data[:, N_first:N_first+N_cnt].T
 
         # length of time series 
         m = single_t_series.shape[1]
